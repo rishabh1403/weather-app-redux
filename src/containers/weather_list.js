@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from  'react-redux';
-import { fetchWeather } from '../actions/index';
 class WeatherList extends Component {
+
+    renderWeather(cityData){
+        return this.props.weather.map((cityData,i)=>{
+            return (
+                <tr key={i}>
+                    <td>{cityData.city.name}</td>
+                </tr>
+            );
+        });
+        
+    }
 
 	render() {
 		return (
@@ -9,18 +19,21 @@ class WeatherList extends Component {
                 <thead>
                     <tr>
                         <th>City</th>
+                        <th>Temp</th>
+                        <th>Pressure</th>
+                        <th>Humidity</th>
                     </tr>
                 </thead>
                 <tbody>
-                    
+                    {this.renderWeather()}
                 </tbody>
             </table>
 		);
 	}
 }
 
-function mapPropsToState(state){
-	return bindActionCreators({fetchWeather}, dispatch);
+function mapPropsToState({weather}){
+	return { weather }
 }
 
-export default connect(null, mapDispatchToProps)(SearchBar);
+export default connect(mapPropsToState)(WeatherList);
